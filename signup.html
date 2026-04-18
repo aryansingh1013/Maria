@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniTravels</title>
+    <style>
+        body {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-image: url('https://img.freepik.com/free-vector/blue-curve-background_53876-113112.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            
+        }
+        .container{
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREujJwyaMGywC403E0bvRW7gD69ES7GLysDQ&s');
+            border: solid;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            width: 350px;
+            height: 350px;  
+            border-radius: 20px;
+            border-color:white; 
+            box-shadow: 10px 10px 20px 1px;
+        }
+        input{
+            width: 80%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 84%;
+            padding: 8px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 12px 0 0 0;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="Login">
+            <h1>SIGN-UP PAGE</h1>
+            <input type="text" id="name" placeholder="Enter your Name">
+            <input type="email" id="email" placeholder="Enter your Email">
+            <input type="password" id="password" placeholder="Enter your Password">
+            <button onclick="signUp()" id="sign-link">Sign Up</button>
+            <p id="loginMessage"></p>
+        </div>
+        <div class="login" onclick="signUp()"></div>
+            <p>Have an account? <a href="Login.html">Sign in</a></p>
+        </div>
+    </div>
+    <script>
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn')) || false;
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+        let selectedRide = {};
+
+        function signUp() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginMsg = document.getElementById('loginMessage');
+
+            if (name && email && password) {
+                users.push({ name, email, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                loginMsg.textContent = "Sign up successful! You can now log in.";
+                window.location.href = "Login.html";
+            } else {
+                loginMsg.textContent = "Please enter a valid username and password.";
+            }
+        }
+    </script>
+</body>
+</html>

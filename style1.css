@@ -1,0 +1,45 @@
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 16px 25px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: xx-large;
+}
+
+.history-item {
+    margin-bottom: 20px;
+}
+
+.chat-history p {
+    margin: 5px 0;
+}
+
+button {
+    background-color: #006ae3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0057a3;
+}
+
+#clearHistory {
+    margin-top: 20px;
+    background-color: red;
+}
+
+#clearHistory:hover {
+    background-color: #d13a3a;
+}

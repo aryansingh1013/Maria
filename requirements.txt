@@ -1,0 +1,8 @@
+langchain
+langchain-community
+langchain-openai
+faiss-cpu
+pypdf
+unstructured
+python-docx
+sentence-transformers

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement RAG Assistant with Maria</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Three.js and GLTFLoader -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+    
+    <!-- Fullscreen Start Screen -->
+    <div id="start-overlay">
+        <div class="intro-content">
+            <h1>LPU Placement Assistant</h1>
+            <p>Interactive 3D Virtual AI Powered by RAG & Groq</p>
+            <button id="start-btn">Start Assistant</button>
+        </div>
+    </div>
+
+    <!-- Main App Split Layout (Hidden until Start) -->
+    <div id="main-container" class="hidden">
+        
+        <!-- Left Pane: 3D Avatar -->
+        <div id="avatar-section">
+            <div id="avatar-container"></div>
+            <!-- Subtitles/Status overlay on the avatar -->
+            <div id="avatar-status"></div>
+        </div>
+
+        <!-- Right Pane: Chat -->
+        <div class="chat-wrapper">
+            <div class="chat-box">
+                <div class="chat-box-header">
+                    <h3>Maria - Placement AI</h3>
+                    <div class="header-controls">
+                        <button id="mic-btn" title="Toggle Voice Input">
+                            <svg style="width:20px;height:20px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/></svg>
+                        </button>
+                        <button id="stop-audio-btn" title="Stop Speaking">
+                            <svg style="width:20px;height:20px" viewBox="0 0 24 24"><path fill="currentColor" d="M18,18H6V6H18V18Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="chat_box_body" class="chat-box-body">
+                    <div id="chat_messages"></div>
+                </div>
+                <div id="typing" class="typing-indicator">
+                    <div>
+                        <span></span><span></span><span></span>
+                        <span class="n">Maria</span> is thinking...
+                    </div>
+                </div>
+                <div class="chat-box-footer">
+                    <textarea id="chat_input" placeholder="Type or speak to Maria..."></textarea>
+                    <button id="send" title="Send Message">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path fill="#006ae3" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+                        </svg>
+                    </button>
+                    <a href="view-history.html" title="Chat History"><button id="view_history" class="view-btn">📜</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="avatar.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
