@@ -45,6 +45,39 @@ function loadVoices() {
                     voices[0];
 }
 
+function detectTextLanguage(text) {
+    if (!text) return 'en-US';
+
+    // Devanagari (Hindi and related Indic scripts)
+    if (/[\u0900-\u097F]/.test(text)) return 'hi-IN';
+    // Arabic
+    if (/[\u0600-\u06FF]/.test(text)) return 'ar-SA';
+    // Cyrillic
+    if (/[\u0400-\u04FF]/.test(text)) return 'ru-RU';
+    // Japanese (Hiragana/Katakana)
+    if (/[\u3040-\u30FF]/.test(text)) return 'ja-JP';
+    // Korean (Hangul)
+    if (/[\uAC00-\uD7AF]/.test(text)) return 'ko-KR';
+    // CJK Unified Ideographs (Chinese)
+    if (/[\u4E00-\u9FFF]/.test(text)) return 'zh-CN';
+
+    return 'en-US';
+}
+
+function pickBestVoiceForLang(langCode) {
+    if (!voices.length) loadVoices();
+    if (!voices.length) return selectedVoice;
+
+    const normalized = (langCode || 'en-US').toLowerCase();
+    const primary = normalized.split('-')[0];
+
+    // Prefer exact locale first, then primary language match.
+    return voices.find(v => (v.lang || '').toLowerCase() === normalized) ||
+           voices.find(v => (v.lang || '').toLowerCase().startsWith(primary + '-')) ||
+           selectedVoice ||
+           voices[0];
+}
+
 if (synth.onvoiceschanged !== undefined) {
     synth.onvoiceschanged = loadVoices;
 }
@@ -77,7 +110,11 @@ function speak(text) {
     if (text.trim() === '') return;
 
     const utterance = new SpeechSynthesisUtterance(cleanTextForSpeech(text));
-    if (selectedVoice) utterance.voice = selectedVoice;
+    const detectedLang = detectTextLanguage(text);
+    const voiceForLang = pickBestVoiceForLang(detectedLang);
+
+    utterance.lang = detectedLang;
+    if (voiceForLang) utterance.voice = voiceForLang;
     
     // Soften the tone
     utterance.rate = 0.95; 
