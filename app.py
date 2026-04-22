@@ -6,6 +6,7 @@ from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Dict, Optional
+from urllib.parse import urlparse
 
 from rag import build_fallback_llm, build_llm, hybrid_answer, load_env_file, load_vectorstore
 
@@ -80,7 +81,7 @@ class PlacementChatHandler(SimpleHTTPRequestHandler):
         )
 
     def end_headers(self) -> None:
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", self._get_cache_control())
         super().end_headers()
 
     def guess_type(self, path: str) -> str:
@@ -95,6 +96,36 @@ class PlacementChatHandler(SimpleHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _get_cache_control(self) -> str:
+        request_path = urlparse(self.path).path.lower()
+
+        if request_path == "/api/chat":
+            return "no-store"
+
+        static_asset_suffixes = {
+            ".js",
+            ".css",
+            ".glb",
+            ".gltf",
+            ".bin",
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".svg",
+            ".webp",
+            ".ico",
+            ".woff",
+            ".woff2",
+        }
+        if any(request_path.endswith(suffix) for suffix in static_asset_suffixes):
+            return "public, max-age=604800, immutable"
+
+        if request_path.endswith(".html") or request_path == "/":
+            return "no-cache"
+
+        return "public, max-age=3600"
 
 
 def main() -> None:
